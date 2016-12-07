@@ -4,13 +4,13 @@ import stylus from 'stylus'
 const ext = /\.styl$/;
 const convertedExt = '.styl.css'
 
-export default function rjStylus(options = {}) {
+export default function(options = {}) {
   const styles = {}
   if (!options.include) options.include = '**/*.styl'
   const filter = createFilter(options.include, options.exclude);
 
   return {
-    name: 'rollup-plugin-rj-stylus',
+    name: 'rollup-plugin-stylus-compiler',
     resolveId(importee, importer) {
       if (importee.endsWith(convertedExt)) return importee
     },
