@@ -25,11 +25,12 @@ export default function rjStylus(options = {}) {
           if (err) reject(err)
           else {
             // cache the converted content
-            styles[id + '.css'] = css
+            const cssFile = id + '.css'
+            styles[cssFile] = css
 
             resolve({
               // make next css plugin work
-              code: 'import "' + id + '.css"',
+              code: `import ${JSON.stringify(cssFile)}`,
               map: { mappings: '' }
             })
           }
