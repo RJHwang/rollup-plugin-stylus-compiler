@@ -8,7 +8,7 @@ export default function(options = {}) {
   const filter = createFilter(options.include, options.exclude);
 
   // use to cache the compiled content
-  // structure: {[compiledId]: [compiledContent], originId: [originId]}
+  // structure: {[compiledId]: [compiledContent]}
   const compiledCache = {}
 
   return {
@@ -34,7 +34,6 @@ export default function(options = {}) {
             const compiledId = id + '.css'
 
             compiledCache[compiledId] = css
-            compiledCache['originId'] = id
 
             resolve({
               // make next css plugin work

@@ -10,7 +10,9 @@ import stylus from '../dist/rollup-plugin-stylus-compiler.cjs.js'
 process.chdir(__dirname)
 
 test("compile stylus and inline into module with postcss plugin", async t => {
-  const jsFile = 'temp/main.js'
+  const toDir = 'temp/t1/'
+  await fsp.remove(toDir) // clean
+  const jsFile = toDir + 'main.js'
 
   const bundle = await rollup({
     entry: 'samples/main.js',
@@ -55,5 +57,6 @@ test("compile stylus and save to css file with css-only plugin", async t => {
 
   t.true(await fsp.exists(jsFile))
   t.true(await fsp.exists(cssFile))
-  t.is('body {\n  padding: 0;\n}\n', await fsp.readFile(cssFile, { encoding: 'UTF-8' }))
+  const content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
+  t.is('.styl {\n  padding: 0;\n}\n', content)
 });
