@@ -13,24 +13,36 @@ export default function(options = {}) {
 
   return {
     name: 'rollup-plugin-stylus-compiler',
+    /**
+     * Rollup default to defer to the next plugin `resolveId` function (return 
+     * null or undefined). Because of the compiled id (importee) is created by 
+     * this plugin and is not originally exists. So for compiled id (importee), 
+     * for avoid transmit it to the next plugin to resolve it again, here need 
+     * to return the compiled id itself. That means all next plugins `resolveId` 
+     * function will not call any more for the compiled id.
+     */
     resolveId(importee, importer) {
-      // if importee is a compiled id then return it.
-      // This will make it transmit to next plugin directly.
       if (compiledCache[importee]) return importee
     },
+    /**
+     * Rollup default to load content from file system (return null or undefined).
+     * Because of the compiled id is created by this plugin and is not really 
+     * exists in the file system. So for compiled id, here need to return the c
+     * ompiled content directly (The compiled content is created and cached by 
+     * the `transform` function). That means all next plugins `load` function 
+     * will not call any more for the compiled id.
+     */
     load(id) {
-      // if id is a compiled id then return the compiled content. 
-      // No need to transform again.
       if (compiledCache[id]) return compiledCache[id]
     },
     transform(code, id) {
-      if (!filter(id)) return null
+      if (!filter(id)) return
       return new Promise(function(resolve, reject) {
         compiler(code).render(function(err, css) {
           if (err) reject(err)
           else {
             // cache the compiled content
-            // use .css extention so next plugin can deal it as pure css
+            // use `.css` extention so next plugin can deal it as pure css
             const compiledId = id + '.css'
 
             compiledCache[compiledId] = css
