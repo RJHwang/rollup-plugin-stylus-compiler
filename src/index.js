@@ -1,6 +1,9 @@
 import { createFilter } from 'rollup-pluginutils'
 import compiler from 'stylus'
 
+const name = 'rollup-plugin-stylus-compiler'
+const debug = require('debug')(name)
+
 export default function(options = {}) {
   // set default stylus file extensions
   if (!options.include) options.include = ['**/*.styl', '**/*.stylus']
@@ -12,7 +15,7 @@ export default function(options = {}) {
   const compiledCache = {}
 
   return {
-    name: 'rollup-plugin-stylus-compiler',
+    name: name,
     /**
      * Rollup default to defer to the next plugin `resolveId` function (return 
      * null or undefined). Because of the compiled id (importee) is created by 
@@ -22,6 +25,7 @@ export default function(options = {}) {
      * function will not call any more for the compiled id.
      */
     resolveId(importee, importer) {
+      debug('resolveId importee=%s, importer=%s', importee, importer)
       if (compiledCache[importee]) return importee
     },
     /**
@@ -33,9 +37,11 @@ export default function(options = {}) {
      * will not call any more for the compiled id.
      */
     load(id) {
+      debug('load id=%s', id)
       if (compiledCache[id]) return compiledCache[id]
     },
     transform(code, id) {
+      debug('transform id=%s, code=%s', id, code)
       if (!filter(id)) return
       return new Promise(function(resolve, reject) {
         compiler(code).render(function(err, css) {
