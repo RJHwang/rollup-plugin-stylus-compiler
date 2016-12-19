@@ -95,12 +95,6 @@ test("compile and output to css file with css-only plugin", async t => {
   });
 
   t.true(await fsp.exists(jsFile))
-
-  // css-only has a test bug (not return a promise for write css file)
-  // so delay to validate the output css file
-  await new Promise(function(resolve, reject) {
-    setTimeout(() => resolve(), 500);
-  })
   t.true(await fsp.exists(cssFile))
   const content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
   t.is('.stylus {\n  padding: 0;\n}\n', content)
