@@ -1,5 +1,6 @@
 import { createFilter } from 'rollup-pluginutils'
 import compiler from 'stylus'
+import path from 'path'
 
 const name = 'rollup-plugin-stylus-compiler'
 const debug = require('debug')(name)
@@ -44,7 +45,10 @@ export default function(options = {}) {
       debug('transform id=%s, code=%s', id, code)
       if (!filter(id)) return
       return new Promise(function(resolve, reject) {
-        compiler(code).render(function(err, css) {
+				const stylus = compiler(code, options.compiler);
+				const relativePath = path.relative(process.cwd(), id);
+				stylus.set('filename', relativePath);
+				stylus.render(function(err, css) {
           if (err) reject(err)
           else {
             // cache the compiled content

@@ -4,6 +4,6 @@ var external = Object.keys(require('./package.json').dependencies);
 
 export default {
   entry: 'src/index.js',
-  external: external,
+  external: external.concat(['path']),
   plugins: [buble()]
 };
