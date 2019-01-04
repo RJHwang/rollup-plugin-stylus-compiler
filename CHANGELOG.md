@@ -1,5 +1,10 @@
 # [rollup-plugin-stylus-compiler](https://github.com/RJHwang/rollup-plugin-stylus-compiler) changelog
 
+## 0.3.0 2019-01-04
+
+- Support import relative path in stylus file, such as '`@import "../../assets/variables.styl"`'
+- Allow passing options to stylus compiler with key `compiler`, such as '`stylus({compiler: {...}})`'
+
 ## 0.2.1 2016-12-19
 
 - update css-only to 0.2.0 for test
