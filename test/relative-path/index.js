@@ -9,7 +9,7 @@ process.chdir(__dirname)
 const testDir = path.resolve('../temp/relative-path/')
 
 test("compile and output to css file with relative import", async t => {
-  const toDir = path.join(testDir, 'css-only')
+  const toDir = path.join(testDir, 'css-porter')
   await fsp.remove(toDir) // clean
   const jsFile = path.join(toDir, 'main.js')
   const cssFile = path.join(toDir, 'main.css')
@@ -18,7 +18,7 @@ test("compile and output to css file with relative import", async t => {
     entry: 'main.js',
     plugins: [
       stylus(),
-			cssPorter()
+      cssPorter()
     ]
   })
 
@@ -32,5 +32,4 @@ test("compile and output to css file with relative import", async t => {
   t.true(await fsp.exists(cssFile))
   let content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
   t.is('.styl {\n  padding: 10;\n}\n', content)
-
 });

@@ -13,7 +13,7 @@ const paths = [
 ]
 
 test("compile and output to css file with external variable file", async t => {
-  const toDir = path.join(testDir, 'css-only')
+  const toDir = path.join(testDir, 'css-porter')
   await fsp.remove(toDir) // clean
   const jsFile = path.join(toDir, 'main.js')
   const cssFile = path.join(toDir, 'main.css')
@@ -22,7 +22,7 @@ test("compile and output to css file with external variable file", async t => {
     entry: 'main.js',
     plugins: [
       stylus({compiler: { paths }}),
-			cssPorter()
+      cssPorter()
     ]
   })
 
@@ -36,5 +36,4 @@ test("compile and output to css file with external variable file", async t => {
   t.true(await fsp.exists(cssFile))
   let content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
   t.is('.styl {\n  padding: 10;\n}\n', content)
-
 });
