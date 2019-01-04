@@ -27,7 +27,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist test/temp",
-    "test": "ava test/styl/index.js test/stylus/index.js",
+    "test": "ava test/styl/index.js test/stylus/index.js test/compiler-options/index.js test/relative-path/index.js",
     "pretest": "npm run build",
     "build": "rollup -c -f cjs -o dist/rollup-plugin-stylus-compiler.cjs.js && rollup -c -f es -o dist/rollup-plugin-stylus-compiler.es.js",
     "prepublish": "npm test"
