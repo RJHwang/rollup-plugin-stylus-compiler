@@ -3,6 +3,9 @@ import fsp from 'fs-promise'
 import path from 'path'
 import { rollup } from 'rollup'
 import cssPorter from 'rollup-plugin-css-porter'
+import postcss from 'rollup-plugin-postcss'
+import cssnano from 'cssnano'
+import cssOnly from 'rollup-plugin-css-only'
 import stylus from '../../dist/rollup-plugin-stylus-compiler.cjs.js'
 
 process.chdir(__dirname)
@@ -12,11 +15,12 @@ const paths = [
   path.resolve('../')
 ]
 
-test("compile and output to css file with external variable file", async t => {
+test("compile and output to css file with css-porter plugin", async t => {
   const toDir = path.join(testDir, 'css-porter')
   await fsp.remove(toDir) // clean
   const jsFile = path.join(toDir, 'main.js')
   const cssFile = path.join(toDir, 'main.css')
+  const cssMinFile = path.join(toDir, 'main.min.css')
 
   const bundle = await rollup({
     entry: 'main.js',
@@ -35,5 +39,66 @@ test("compile and output to css file with external variable file", async t => {
 
   t.true(await fsp.exists(cssFile))
   let content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
+  t.is('.styl {\n  padding: 10;\n}\n', content)
+
+  t.true(await fsp.exists(cssMinFile))
+  content = await fsp.readFile(cssMinFile, { encoding: 'UTF-8' })
+  t.is('.styl{padding:10}', content)
+});
+
+test("compile and inline into module with postcss plugin", async t => {
+  const toDir = path.join(testDir, 'postcss')
+  await fsp.remove(toDir) // clean
+  const jsFile = path.join(toDir, 'main.js')
+
+  const bundle = await rollup({
+    entry: 'main.js',
+    plugins: [
+      stylus({compiler: { paths }}),
+      postcss({
+        plugins: [cssnano], // minified CSS
+        extensions: ['.css']
+      })
+    ]
+  })
+
+  await bundle.write({
+    format: 'es',
+    dest: jsFile
+  });
+
+  t.true(await fsp.exists(jsFile))
+
+  const content = await fsp.readFile(jsFile, { encoding: 'UTF-8' })
+  t.true(content.includes('__$styleInject(".styl{padding:10}",undefined);'))
+});
+
+test("compile and output to css file with css-only plugin", async t => {
+  const toDir = path.join(testDir, 'css-only')
+  await fsp.remove(toDir) // clean
+  const jsFile = path.join(toDir, 'main.js')
+  const cssFile = path.join(toDir, 'main.css')
+
+  // css-only plugin need the output dir pre-existing.
+  await fsp.mkdir(toDir)
+
+  const bundle = await rollup({
+    entry: 'main.js',
+    plugins: [
+      stylus({compiler: { paths }}),
+      cssOnly({
+        output: cssFile
+      })
+    ]
+  })
+
+  await bundle.write({
+    format: 'es',
+    dest: jsFile
+  });
+
+  t.true(await fsp.exists(jsFile))
+  t.true(await fsp.exists(cssFile))
+  const content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
   t.is('.styl {\n  padding: 10;\n}\n', content)
 });
