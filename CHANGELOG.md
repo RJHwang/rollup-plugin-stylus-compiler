@@ -1,5 +1,9 @@
 # [rollup-plugin-stylus-compiler](https://github.com/RJHwang/rollup-plugin-stylus-compiler) changelog
 
+## 0.4.1 2019-03-12
+
+- Polishing README - add 0.4.x supported rollup version
+
 ## 0.4.0 2019-03-12
 
 - Upgrade to rollup-0.68.2
