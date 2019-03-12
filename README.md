@@ -15,8 +15,18 @@ Supported rollup version :
 
 ## Installation
 
+Use `npm`:
+
 ```bash
 npm install --save-dev rollup-plugin-stylus-compiler
+// or
+npm i --D rollup-plugin-stylus-compiler
+```
+
+Use `yarn`:
+
+```bash
+yarn add rollup-plugin-stylus-compiler --dev
 ```
 
 ## Usage
@@ -84,14 +94,30 @@ Output `bundle.css`.
 
 ## Build
 
+Use `npm`:
+
 ```bash
 npm run build
 ```
 
-## Run Test
+Use `yarn`:
+
+```bash
+yarn run build
+```
+
+## Run test
+
+Use `npm`:
 
 ```bash
 npm test
+```
+
+Use `yarn`:
+
+```bash
+yarn test
 ```
 
 
