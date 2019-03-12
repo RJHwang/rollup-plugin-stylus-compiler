@@ -29,7 +29,7 @@
     "clean": "rm -rf dist test/temp",
     "test": "ava test/styl/index.js test/stylus/index.js test/compiler-options/index.js test/relative-path/index.js",
     "pretest": "npm run build",
-    "build": "rollup -c --output.format cjs --output.file dist/rollup-plugin-stylus-compiler.cjs.js && rollup -c --output.format es --output.file dist/rollup-plugin-stylus-compiler.es.js",
+    "build": "rollup -c",
     "prepare": "npm test"
   },
   "dependencies": {
