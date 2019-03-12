@@ -33,7 +33,7 @@
     "prepare": "npm test"
   },
   "dependencies": {
-    "rollup-pluginutils": "^1.5.2",
+    "rollup-pluginutils": "^2.4.1",
     "stylus": "^0.54.5"
   },
   "devDependencies": {
