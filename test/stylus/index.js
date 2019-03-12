@@ -1,5 +1,5 @@
 import test from 'ava'
-import fsp from 'fs-promise'
+import fse from 'fs-extra'
 import path from 'path'
 import { rollup } from 'rollup'
 import buble from 'rollup-plugin-buble'
@@ -14,7 +14,7 @@ const testDir = path.resolve('../temp/stylus/')
 
 test("compile and output to css file with css-porter plugin", async t => {
   const toDir = path.join(testDir, 'css-porter')
-  await fsp.remove(toDir) // clean
+  await fse.remove(toDir) // clean
   const jsFile = path.join(toDir, 'main.js')
   const cssFile = path.join(toDir, 'main.css')
   const cssMinFile = path.join(toDir, 'main.min.css')
@@ -32,20 +32,20 @@ test("compile and output to css file with css-porter plugin", async t => {
     dest: jsFile
   });
 
-  t.true(await fsp.exists(jsFile))
+  t.true(await fse.exists(jsFile))
 
-  t.true(await fsp.exists(cssFile))
-  let content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
+  t.true(await fse.exists(cssFile))
+  let content = await fse.readFile(cssFile, { encoding: 'UTF-8' })
   t.is('.stylus {\n  padding: 0;\n}\n', content)
 
-  t.true(await fsp.exists(cssMinFile))
-  content = await fsp.readFile(cssMinFile, { encoding: 'UTF-8' })
+  t.true(await fse.exists(cssMinFile))
+  content = await fse.readFile(cssMinFile, { encoding: 'UTF-8' })
   t.is('.stylus{padding:0}', content)
 });
 
 test("compile and inline into module with postcss plugin", async t => {
   const toDir = path.join(testDir, 'postcss')
-  await fsp.remove(toDir) // clean
+  await fse.remove(toDir) // clean
   const jsFile = path.join(toDir, 'main.js')
 
   const bundle = await rollup({
@@ -64,20 +64,20 @@ test("compile and inline into module with postcss plugin", async t => {
     dest: jsFile
   });
 
-  t.true(await fsp.exists(jsFile))
+  t.true(await fse.exists(jsFile))
 
-  const content = await fsp.readFile(jsFile, { encoding: 'UTF-8' })
+  const content = await fse.readFile(jsFile, { encoding: 'UTF-8' })
   t.true(content.includes('__$styleInject(".stylus{padding:0}",undefined);'))
 });
 
 test("compile and output to css file with css-only plugin", async t => {
   const toDir = path.join(testDir, 'css-only')
-  await fsp.remove(toDir) // clean
+  await fse.remove(toDir) // clean
   const jsFile = path.join(toDir, 'main.js')
   const cssFile = path.join(toDir, 'main.css')
 
   // css-only plugin need the output dir pre-existing.
-  await fsp.mkdir(toDir)
+  await fse.mkdir(toDir)
 
   const bundle = await rollup({
     entry: 'main.js',
@@ -94,8 +94,8 @@ test("compile and output to css file with css-only plugin", async t => {
     dest: jsFile
   });
 
-  t.true(await fsp.exists(jsFile))
-  t.true(await fsp.exists(cssFile))
-  const content = await fsp.readFile(cssFile, { encoding: 'UTF-8' })
+  t.true(await fse.exists(jsFile))
+  t.true(await fse.exists(cssFile))
+  const content = await fse.readFile(cssFile, { encoding: 'UTF-8' })
   t.is('.stylus {\n  padding: 0;\n}\n', content)
 });
