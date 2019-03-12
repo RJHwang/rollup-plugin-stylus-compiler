@@ -20,7 +20,7 @@ test("compile and output to css file with css-porter plugin", async t => {
   const cssMinFile = path.join(toDir, 'main.min.css')
 
   const bundle = await rollup({
-    entry: 'main.js',
+    input: 'main.js',
     plugins: [
       stylus(),
       cssPorter()
@@ -29,7 +29,7 @@ test("compile and output to css file with css-porter plugin", async t => {
 
   await bundle.write({
     format: 'es',
-    dest: jsFile
+    file: jsFile
   });
 
   t.true(await fse.exists(jsFile))
@@ -49,7 +49,7 @@ test("compile and inline into module with postcss plugin", async t => {
   const jsFile = path.join(toDir, 'main.js')
 
   const bundle = await rollup({
-    entry: 'main.js',
+    input: 'main.js',
     plugins: [
       stylus(),
       postcss({
@@ -61,7 +61,7 @@ test("compile and inline into module with postcss plugin", async t => {
 
   await bundle.write({
     format: 'es',
-    dest: jsFile
+    file: jsFile
   });
 
   t.true(await fse.exists(jsFile))
@@ -80,7 +80,7 @@ test("compile and output to css file with css-only plugin", async t => {
   await fse.mkdir(toDir)
 
   const bundle = await rollup({
-    entry: 'main.js',
+    input: 'main.js',
     plugins: [
       stylus(),
       cssOnly({
@@ -91,7 +91,7 @@ test("compile and output to css file with css-only plugin", async t => {
 
   await bundle.write({
     format: 'es',
-    dest: jsFile
+    file: jsFile
   });
 
   t.true(await fse.exists(jsFile))

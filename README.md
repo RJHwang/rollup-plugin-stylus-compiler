@@ -39,12 +39,12 @@ import stylus from 'rollup-plugin-stylus-compiler';
 import css from 'rollup-plugin-css-porter';
 
 rollup({
-  entry: 'main.js',
+  input: 'main.js',
   plugins: [ stylus(), css()]
 }).then(bundle => {
   bundle.write({
     format: 'es',
-    dest: 'bundle.js'
+    file: 'bundle.js'
   });
 });
 ```
@@ -59,12 +59,12 @@ import stylus from 'rollup-plugin-stylus-compiler';
 import postcss from 'rollup-plugin-postcss';
 
 rollup({
-  entry: 'main.js',
+  input: 'main.js',
   plugins: [ stylus(), postcss()]
 }).then(bundle => {
   bundle.write({
     format: 'es',
-    dest: 'bundle.js'
+    file: 'bundle.js'
   });
 });
 ```
@@ -80,12 +80,12 @@ import stylus from 'rollup-plugin-stylus-compiler';
 import css from 'rollup-plugin-css-only';
 
 rollup({
-  entry: 'main.js',
+  input: 'main.js',
   plugins: [ stylus(), css()]
 }).then(bundle => {
   bundle.write({
     format: 'es',
-    dest: 'bundle.js'
+    file: 'bundle.js'
   });
 });
 ```
