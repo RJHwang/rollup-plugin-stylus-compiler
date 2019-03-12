@@ -67,7 +67,7 @@ test("compile and inline into module with postcss plugin", async t => {
   t.true(await fse.exists(jsFile))
 
   const content = await fse.readFile(jsFile, { encoding: 'UTF-8' })
-  t.true(content.includes('__$styleInject(".stylus{padding:0}",undefined);'))
+  t.true(content.includes('__$styleInject(".stylus{padding:0}", {});'))
 });
 
 test("compile and output to css file with css-only plugin", async t => {
