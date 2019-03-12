@@ -12,6 +12,7 @@ Supported rollup version :
 | this version | rollup version
 |--------------|----------------
 | 0.1.0~0.3.x  | 0.36.0~0.47.6
+| 0.4.x        | 0.48.0~0.68.2
 
 ## Installation
 
