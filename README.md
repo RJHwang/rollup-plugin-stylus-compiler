@@ -1,11 +1,17 @@
 # rollup-plugin-stylus-compiler
 
-A rollup plugin to compile stylus file (`.styl or .stylus`) to css file. This plugin only integrates [stylus](https://github.com/stylus/stylus) to do the compile job. 
+A rollup plugin to compile stylus file (`.styl or .stylus`) to css file. This plugin only integrates [stylus](https://github.com/stylus/stylus) to do the compile job.
 Need other plugin to deal with the compiled css content. Such as:
 
 - [rollup-plugin-css-porter] - output css to a standalone file, also with a minified version
 - [rollup-plugin-postcss] - inline css into module
 - [rollup-plugin-css-only] - output css to a standalone file.
+
+Supported rollup version :
+
+| this version | rollup version
+|--------------|----------------
+| 0.1.0~0.3.x  | 0.36.0~0.47.6
 
 ## Installation
 
