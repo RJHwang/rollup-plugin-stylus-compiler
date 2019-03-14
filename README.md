@@ -4,15 +4,16 @@ A rollup plugin to compile stylus file (`.styl or .stylus`) to css file. This pl
 Need other plugin to deal with the compiled css content. Such as:
 
 - [rollup-plugin-css-porter] - output css to a standalone file, also with a minified version
-- [rollup-plugin-postcss] - inline css into module
 - [rollup-plugin-css-only] - output css to a standalone file.
+- [rollup-plugin-postcss] - inline css into module
 
 Supported rollup version :
 
 | this version | rollup version
 |--------------|----------------
-| 0.1.0~0.3.x  | 0.36.0~0.47.6
+| 1.x          | 1.x
 | 0.4.x        | 0.48.0~0.68.2
+| 0.1.0~0.3.x  | 0.36.0~0.47.6
 
 ## Installation
 
