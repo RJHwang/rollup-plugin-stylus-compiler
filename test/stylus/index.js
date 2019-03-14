@@ -36,11 +36,11 @@ test("compile and output to css file with css-porter plugin", async t => {
 
   t.true(await fse.exists(cssFile))
   let content = await fse.readFile(cssFile, { encoding: 'UTF-8' })
-  t.is('.stylus {\n  padding: 0;\n}\n', content)
+  t.is('.styl {\n  padding: 0;\n}\n', content)
 
   t.true(await fse.exists(cssMinFile))
   content = await fse.readFile(cssMinFile, { encoding: 'UTF-8' })
-  t.is('.stylus{padding:0}', content)
+  t.is('.styl{padding:0}', content)
 });
 
 test("compile and inline into module with postcss plugin", async t => {
@@ -53,8 +53,9 @@ test("compile and inline into module with postcss plugin", async t => {
     plugins: [
       stylus(),
       postcss({
-        plugins: [cssnano], // minified CSS
-        extensions: ['.css']
+        include: ['**/*.css'], // only deal css file
+        extract: false,        // inject css to head
+        plugins: [cssnano]     // minified css
       })
     ]
   })
@@ -67,7 +68,8 @@ test("compile and inline into module with postcss plugin", async t => {
   t.true(await fse.exists(jsFile))
 
   const content = await fse.readFile(jsFile, { encoding: 'UTF-8' })
-  t.true(content.includes('__$styleInject(".stylus{padding:0}", {});'))
+  t.true(content.includes('var css = ".styl{padding:0}";'))
+  t.true(content.includes('styleInject(css);'))
 });
 
 test("compile and output to css file with css-only plugin", async t => {
@@ -97,5 +99,5 @@ test("compile and output to css file with css-only plugin", async t => {
   t.true(await fse.exists(jsFile))
   t.true(await fse.exists(cssFile))
   const content = await fse.readFile(cssFile, { encoding: 'UTF-8' })
-  t.is('.stylus {\n  padding: 0;\n}\n', content)
+  t.is('.styl {\n  padding: 0;\n}\n', content)
 });
