@@ -56,8 +56,9 @@ test("compile and inline into module with postcss plugin", async t => {
     plugins: [
       stylus({compiler: { paths }}),
       postcss({
-        plugins: [cssnano], // minified CSS
-        extensions: ['.css']
+        include: ['**/*.css'], // only deal css file
+        extract: false,        // inject css to head
+        plugins: [cssnano]     // minified css
       })
     ]
   })
@@ -70,7 +71,8 @@ test("compile and inline into module with postcss plugin", async t => {
   t.true(await fse.exists(jsFile))
 
   const content = await fse.readFile(jsFile, { encoding: 'UTF-8' })
-  t.true(content.includes('__$styleInject(".styl{padding:10}", {});'))
+  t.true(content.includes('var css = ".styl{padding:0}";'))
+  t.true(content.includes('styleInject(css);'))
 });
 
 test("compile and output to css file with css-only plugin", async t => {
