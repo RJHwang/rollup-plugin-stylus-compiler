@@ -9,11 +9,11 @@ Need other plugin to deal with the compiled css content. Such as:
 
 Supported rollup version :
 
-| this version | rollup version
-|--------------|----------------
-| 1.x          | 1.x
-| 0.4.x        | 0.48.0~0.68.2
-| 0.1.0~0.3.x  | 0.36.0~0.47.6
+| plugin version | rollup version
+|----------------|----------------
+| 1.x            | 1.x
+| 0.4.x          | 0.48.0~0.68.2
+| 0.1.0~0.3.x    | 0.36.0~0.47.6
 
 ## Installation
 
@@ -22,7 +22,7 @@ Use `npm`:
 ```bash
 npm install --save-dev rollup-plugin-stylus-compiler
 // or
-npm i --D rollup-plugin-stylus-compiler
+npm i -D rollup-plugin-stylus-compiler
 ```
 
 Use `yarn`:
@@ -62,7 +62,7 @@ import postcss from 'rollup-plugin-postcss';
 
 rollup({
   input: 'main.js',
-  plugins: [ stylus(), postcss()]
+  plugins: [ stylus(), postcss({ include: '**/*.css' })]
 }).then(bundle => {
   bundle.write({
     format: 'es',
